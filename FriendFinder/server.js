@@ -1,44 +1,54 @@
-//require dotenv
-require("dotenv").config();
-
-// Dependencies
+/// Dependencies
+// =============================================================
 const express = require("express");
 const bodyParser = require("body-parser");
-const mysql = require("mysql");
+const path = require("path");
 
-
-
-// Create an instance of the express app.
+// Sets up the Express App
+// =============================================================
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Set the port of our application
-// process.env.PORT lets the port be set by Heroku
-const PORT = process.env.PORT || 8080;
+// Sets up the Express app to handle data parsing
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-//MySQL connection - using .env file
-const connection = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
+//Setting up Routes in server.js to start and test functionality
+require('./app/routing/apiRoutes.js')(app); 
+require('./app/routing/htmlRoutes.js')(app);
+
+
+  // Displays all Friends
+app.get("/api/friends", function(res) {
+    return res.json(characters);
+  });
   
-    // Your port; if not 3306 (default in documentation)
-    port: process.env.MYSQL_PORT,
   
-    // Your username
-    user: process.env.MYSQL_USER,
+// Create New Characters - takes in JSON input
+app.post("/api/friends", function(res) {
+
+    // req.body hosts is equal to the JSON post sent from the user
+    // This works because of our body-parser middleware
+    const newFriend = req.body;
   
-    // Your password
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DB
+    // Using a RegEx Pattern to remove spaces from newCharacter
+    // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+    newFriend.routeName = newcharacter.name.replace(/\s+/g, "").toLowerCase();
+  
+    console.log(newFriend);
+  
+    characters.push(newFriend);
+  
+    res.json(newFriend);
   });
 
-  // Sets up the Express app to handle data parsing
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
 
-// Initiate MySQL Connection.
-connection.connect(function(err) {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-  console.log("connected as id " + connection.threadId);
-});
+
+
+
+
+// Starts the server to begin listening
+// =============================================================
+app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
+  });
