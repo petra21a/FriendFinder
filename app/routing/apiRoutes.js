@@ -3,8 +3,8 @@ const friendsData = require("../data/friends.js")
 
 module.exports = function (app) {
   // Displays all Friends
-  app.get("/api/friends", function (res) {
-    return res.json(friends);
+  app.get("/api/friends", function (_,res) {
+    return res.json(friendsData.friends);
   });
 
 

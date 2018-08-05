@@ -1,6 +1,6 @@
 const friends =[
     { name: 'Joe',
-  photo: 'https://cdn.shopify.com/s/files/1/0384/0921/products/average-joes-shirt.main.jpeg?v=1445028318',
+  photo: 'https://images-na.ssl-images-amazon.com/images/I/81yKJ5dhh1L._UX679_.jpg',
   scores: [ '3', '3', '3', '3', '3', '3', '3', '3', '3', '3' ] }
 ];
 

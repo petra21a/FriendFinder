@@ -294,7 +294,7 @@
                             <h2 id="friend-name"></h2>
                             <i class="material-icons right">close</i>
                         </span>
-                        <img id="friend-image" src="https://cdn.shopify.com/s/files/1/0384/0921/products/average-joes-shirt.main.jpeg?v=1445028318">
+                        <img id="friend-image" src="">
                     </div>
                 </div>
             </div>
@@ -309,6 +309,12 @@
 
     </div>
 
+    <footer class="footer row center-align">
+        <p>
+            <a href="/api/friends">API Friends List</a> |
+            <a href="/">Home</a>
+        </p>
+    </footer>
 </body>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
@@ -347,7 +353,7 @@
             $.post("/api/friends", newFriend).then(function (data) {
                 console.log(data)
                 $("#friend-name").html(data.name);
-                $("#friend-image").attr(data.photo);
+                $("#friend-image").attr("src", data.photo);
                 $('#friend-modal').modal('open');
 
             });
