@@ -3,7 +3,7 @@ const friendsData = require("../data/friends.js")
 
 module.exports = function (app) {
   // Displays all Friends
-  app.get("/api/friends", function (_,res) {
+  app.get("/api/friends", function (_, res) {
     return res.json(friendsData.friends);
   });
 
@@ -14,19 +14,25 @@ module.exports = function (app) {
     // req.body hosts is equal to the JSON post sent from the user
     // This works because of our body-parser middleware
     const newFriend = req.body;
-    
+
     //Friend Math:
-    const min = Math.abs(friendsData.friends[0].scores.reduce((total, amount) => parseInt(total, 10) + parseInt(amount, 10)) - newFriend.scores.reduce((total, amount) => parseInt(total, 10) + parseInt(amount, 10)))
-  let bestFriend = friendsData.friends[0];
-    // console.log(newFriend,min)
+
+    //homework instructions method
+    let bestFriend = {};
+    let min = 50;
+    totalDifference = 0;
     for (const n of friendsData.friends) {
-      let delta = Math.abs(n.scores.reduce((total, amount) => parseInt(total, 10) + parseInt(amount, 10)) - newFriend.scores.reduce((total, amount) => parseInt(total, 10) + parseInt(amount, 10)))
-      // console.log(delta)
-      if (delta < min) {
+      diffArr = [];
+      for (i = 0; i < newFriend.scores.length; i++) {
+
+        diffArr.push(Math.abs(parseInt(newFriend.scores[i], 10) - parseInt(n.scores[i], 10)));
+      }
+      totalDifference = diffArr.reduce((total, amount) => total + amount)
+      if (totalDifference < min) {
+        min = totalDifference;
         bestFriend = n;
       }
     }
-    // console.log(bestFriend)
     friendsData.friends.push(newFriend);
     res.json(bestFriend);
   });
